@@ -16,7 +16,7 @@ namespace api {
 
 
 	std::string baseURL = "https://api.weatherapi.com/v1/";
-	std::string key = "key= 911e86ff402045c3a2e211253242205"; //Add your key
+	std::string key = "key=911e86ff402045c3a2e211253242205"; //Add your key
 
 	std::string urlCurrent = "current.json?";
 	std::string urlForcast = "forecast.json?";
