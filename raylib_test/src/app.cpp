@@ -13,8 +13,8 @@
     // Getting the weather data from weatherapi.com
     api::weather result = api::weatherRequest(api::weatherType::current, "Mostar");
 
-    Color niceBlue = { 49, 162, 197, 255 };
-    Color coolBlue = { 111, 173, 192, 255 };
+    Color niceBlue = { 64, 137, 190, 255 };  //rgba(64, 137, 190, 1)
+    Color coolBlue = { 113, 234, 250, 255 }; //rgba(113, 234, 250, 1)
 
     std::string imgPath = "/Weather/res/img/";
     std::string fontPath = "/Weather/res/font/";
