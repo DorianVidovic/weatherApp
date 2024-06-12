@@ -19,7 +19,7 @@
     std::string imgPath = "/Weather/res/img/";
     std::string fontPath = "/Weather/res/font/";
     std::string fontUrl = "https://raw.githubusercontent.com/DorianVidovic/fonts/main/Inter-Bold.ttf";
-    std::string iconUrl = result.isDay == true ? "https://cdn.weatherapi.com/weather/128x128/day/": "https://cdn.weatherapi.com/weather/128x128/night";
+    std::string iconUrl = result.isDay == true ? "https://cdn.weatherapi.com/weather/128x128/day/": "https://cdn.weatherapi.com/weather/128x128/night/";
     
 
     //Getting the icon
