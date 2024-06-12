@@ -1,0 +1,49 @@
+#include <iostream>
+#include <curl/curl.h>
+#include <stdio.h>
+
+using namespace std;
+
+// Callback function to write image data to a file
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, FILE* fp) {
+    return fwrite(contents, size, nmemb, fp);
+}
+
+int main() {
+    CURL* image;
+    CURLcode imgresult;
+    FILE* fp;
+
+    image = curl_easy_init();
+    if (image) {
+        // Open file for writing (replace with your desired filename)
+        fp = fopen("image.jpg", "wb");
+        if (fp == NULL) {
+            cout << "File cannot be opened" << endl;
+            return 1;
+        }
+
+        // Set the image URL
+        curl_easy_setopt(image, CURLOPT_URL, "https://www.example.com/image.jpg");
+
+        // Set the write function and data options
+        curl_easy_setopt(image, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(image, CURLOPT_WRITEDATA, fp);
+
+        // Grab the image
+        imgresult = curl_easy_perform(image);
+        if (imgresult != CURLE_OK) {
+            cout << "Cannot grab the image!" << endl;
+        } else {
+            cout << "Image saved successfully as 'image.jpg'." << endl;
+        }
+
+        // Clean up resources
+        curl_easy_cleanup(image);
+
+        // Close the file
+        fclose(fp);
+    }
+
+    return 0;
+}
