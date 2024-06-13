@@ -8,20 +8,6 @@
 
 namespace api {
 
-	CURL* curl = NULL;
-	CURLcode result;
-
-	Json::Reader reader;
-	Json::Value parsedData;
-
-
-	std::string baseURL = "https://api.weatherapi.com/v1/";
-	std::string key = "key=911e86ff402045c3a2e211253242205"; //Add your key
-
-	std::string urlCurrent = "current.json?";
-	std::string urlForcast = "forecast.json?";
-	std::string urlSearch = "search.json?";
-
 	size_t WriteDataToString(void* ptr, size_t size, size_t nmemb, std::string* output) {
 		size_t totalSize = size * nmemb;
 		output->append(static_cast<char*>(ptr), totalSize);
@@ -34,6 +20,21 @@ namespace api {
 	}
 
 	api::weather weatherRequest(weatherType par_value, std::string par_place, bool par_aqi, int par_days, bool par_alerts) {
+
+		CURL* curl = NULL;
+		CURLcode result;
+
+		Json::Reader reader;
+		Json::Value parsedData;
+
+
+		std::string baseURL = "https://api.weatherapi.com/v1/";
+		std::string key = "key=911e86ff402045c3a2e211253242205"; //Add your key
+
+		std::string urlCurrent = "current.json?";
+		std::string urlForcast = "forecast.json?";
+		std::string urlSearch = "search.json?";
+
 
 		std::string aqi = par_aqi == true ? "&aqi=yes" : "&aqi=no";
 		std::string alerts = par_alerts == true ? "&alerts=yes" : "&alerts=no";
@@ -48,15 +49,15 @@ namespace api {
 		}
 
 
-		if (par_value == weatherType::current){
+		if (par_value == weatherType::current) {
 			curl_easy_setopt(curl, CURLOPT_URL, baseURL.append(urlCurrent).append(key).append("&q=" + par_place).append(aqi).c_str());
 		}
 
-		if (par_value == weatherType::forecast){
+		if (par_value == weatherType::forecast) {
 			curl_easy_setopt(curl, CURLOPT_URL, baseURL.append(urlForcast).append(key).append("&q=" + par_place).append(aqi).append("&days=" + std::to_string(par_days)).append(alerts).c_str());
 		}
 
-		if (par_value == weatherType::search){
+		if (par_value == weatherType::search) {
 			curl_easy_setopt(curl, CURLOPT_URL, baseURL.append(urlSearch).append(key).append("&q=" + par_place).c_str());
 		}
 
@@ -98,6 +99,7 @@ namespace api {
 		weatherParsed.visKm = parsedData["current"]["vis_km"].asFloat();
 		weatherParsed.uv = parsedData["current"]["uv"].asFloat();
 
+
 		return weatherParsed;
 	}
 
@@ -122,7 +124,7 @@ namespace api {
 		std::cout << "\n\n***downloading... " << fullPath << "\n\n" << std::endl;
 
 		curl = curl_easy_init();
-		
+
 		if (curl) {
 			if (!std::filesystem::is_directory(iconPath))
 			{
