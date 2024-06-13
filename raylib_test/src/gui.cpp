@@ -119,6 +119,22 @@ void gui::update(api::weather result, std::string iconName)
         next_update = now + std::chrono::minutes(5);
     }
 
+        this->items[2].text = result.conditionText;
+        this->items[3].text = std::to_string((int)result.tempC) + "\xC2\xB0";
+
+        if (result.isDay) {
+            this->items[5].img = LoadImage(api::fullPath(imgPathDay, iconName).c_str()); // Assuming iconIndex is known
+            ImageResize(&this->items[5].img, this->windowWidth * this->items[5].size.x, this->windowWidth * this->items[5].size.y);
+        }
+        else {
+            this->items[5].img = LoadImage(api::fullPath(imgPathNight, iconName).c_str()); // Assuming iconIndex is known
+            ImageResize(&this->items[5].img, this->windowWidth * this->items[5].size.x, this->windowWidth * this->items[5].size.y);
+        }
+        this->items[5].tex = LoadTextureFromImage(this->items[5].img);
+
+        next_update = now + std::chrono::seconds(6);
+    }
+
 }
 
 void gui::draw()
