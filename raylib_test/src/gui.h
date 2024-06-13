@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <chrono>
 #include <string>
 #include <vector>
 
@@ -33,6 +34,8 @@ public:
 	std::vector<Font> fonts;
 
 
+	std::chrono::steady_clock::time_point next_update;
+
 	gui(int sH, int sW, bool res, std::string winText,Image icon);
 	~gui();
 
@@ -41,7 +44,7 @@ public:
 	void createElement(std::string text, int fontType, int textSize, int positionX = 0, int positionY = 0);
 
 	void draw();
-	void update();
+	void update(api::weather result, std::string iconName);
 
 	bool windowExit();
 

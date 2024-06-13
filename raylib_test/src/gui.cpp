@@ -21,7 +21,10 @@ gui::gui(int windowW, int windowH, bool res, std::string winText, Image icon)
     SetTargetFPS(10);
 
     SetWindowIcon(icon);
-    //UnloadImage(icon);
+    UnloadImage(icon);
+
+
+    next_update = std::chrono::steady_clock::now();
 
 }
 
@@ -62,7 +65,7 @@ void gui::createElement(std::string text, int fontType, int textSize, int positi
     items.push_back({ i, e ,text ,fontType ,textSize ,0 ,0 ,position.x, position.y });
 }
 
-void gui::update()
+void gui::update(api::weather result, std::string iconName)
 {/*
     if (IsWindowResized())
     {
@@ -89,6 +92,31 @@ void gui::update()
     }
  */
 
+
+    std::string imgPathDay = "/Weather/res/img/day/";
+    std::string imgPathNight = "/Weather/res/img/night/";
+
+    auto now = std::chrono::steady_clock::now();
+    if (now >= next_update) {
+
+        result = api::weatherRequest(api::weatherType::current, "Mostar");
+
+
+        this->items[2].text = result.conditionText;
+        this->items[3].text = std::to_string((int)result.tempC) + "\xC2\xB0";
+
+        if (result.isDay) {
+            this->items[5].img = LoadImage(api::fullPath(imgPathDay, iconName).c_str()); // Assuming iconIndex is known
+            ImageResize(&this->items[5].img, this->windowWidth * this->items[5].size.x, this->windowWidth * this->items[5].size.y);
+        }
+        else {
+            this->items[5].img = LoadImage(api::fullPath(imgPathNight, iconName).c_str()); // Assuming iconIndex is known
+            ImageResize(&this->items[5].img, this->windowWidth * this->items[5].size.x, this->windowWidth * this->items[5].size.y);
+        }
+        this->items[5].tex = LoadTextureFromImage(this->items[5].img);
+
+        next_update = now + std::chrono::seconds(6);
+    }
 
 }
 
