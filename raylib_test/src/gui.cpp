@@ -21,13 +21,13 @@ gui::gui(int windowW, int windowH, bool res, std::string winText, Image icon)
     SetTargetFPS(10);
 
     SetWindowIcon(icon);
-    UnloadImage(icon);
+    //UnloadImage(icon);
 
 }
 
 gui::~gui()
 {
-    //UnloadTexture(tex);
+    
     CloseWindow();
     for (element& currentElement : items)
     {
